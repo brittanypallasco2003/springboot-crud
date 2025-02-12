@@ -1,6 +1,5 @@
-package com.brittany.app.springboot_crud.repositories;
+package com.brittany.app.springboot_crud.models;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
