@@ -1,5 +1,6 @@
 package com.brittany.app.springboot_crud.models;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +18,10 @@ public class Product {
     private String name;
     private Float price;
     private String description;
-    
+
+    @Embedded
+    private Audit audit= new Audit();
+
     public Long getId() {
         return id;
     }
