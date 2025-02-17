@@ -38,8 +38,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void deleteProductById(Long id) {
-        productRepository.deleteById(id);
+    public Optional<Product> deleteProductById(Long id) {
+        Optional<Product> productOptional= productRepository.findById(id);
+        productOptional.ifPresent(productDb->{
+            productRepository.deleteById(id);
+        });
+        return productOptional;
     }
 
     @Transactional
