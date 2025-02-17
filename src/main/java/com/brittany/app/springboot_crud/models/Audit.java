@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 @Embeddable
 public class Audit {
@@ -12,6 +14,15 @@ public class Audit {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+   @PrePersist
+    public void prePersist(){
+        this.createdAt=LocalDateTime.now();
+    }
+    @PreUpdate
+    public void PreUpdate(){
+        this.updatedAt=LocalDateTime.now();
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
