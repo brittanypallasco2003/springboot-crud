@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
-
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -26,10 +23,18 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
+
     @GetMapping
     public List<Product> getProductList() {
         return productService.findAllProducts(); 
     }
+    
+
+    @PostMapping
+    public Product addProduct(@RequestBody Product newProduct) {
+        return productService.createProduct(newProduct);
+    }
+    
 
    
     

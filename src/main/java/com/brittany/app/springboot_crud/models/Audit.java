@@ -20,7 +20,7 @@ public class Audit {
         this.createdAt=LocalDateTime.now();
     }
     @PreUpdate
-    public void PreUpdate(){
+    public void preUpdate(){
         this.updatedAt=LocalDateTime.now();
     }
 
