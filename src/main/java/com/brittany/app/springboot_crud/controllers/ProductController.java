@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -50,12 +51,14 @@ public class ProductController {
         return ResponseEntity.created(location).body(newproduct);
     }
 
-    // @PutMapping("/{id}")
-    // public ResponseEntity<?> putProduct(@PathVariable Long id, @RequestBody
-    // Product product) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> putProduct(@PathVariable Long id, @RequestBody
+    Product product) {
+        return productService.updateProduct(id, product)
+                .map(productDb -> ResponseEntity.ok().body(productDb))
+                .orElseGet(() -> ResponseEntity.notFound().build());
 
-    // return entity;
-    // }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
