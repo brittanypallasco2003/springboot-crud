@@ -1,6 +1,7 @@
 package com.brittany.app.springboot_crud.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.brittany.app.springboot_crud.models.Product;
 import com.brittany.app.springboot_crud.services.ProductService;
@@ -8,17 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.boot.autoconfigure.jersey.JerseyProperties.Servlet;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
@@ -41,19 +44,31 @@ public class ProductController {
         return productService.findProductById(id)
                 .map(product -> ResponseEntity.ok().body(product))
                 .orElseGet(() -> ResponseEntity.notFound().build());
-
     }
 
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(product));
+        URI location = ServletUriComponentsBuilder
+        .fromCurrentRequest()
+        .path("/{id}")
+        .buildAndExpand(product.getId())
+        .toUri();
+        return ResponseEntity.created(location).body(productService.createProduct(product));
     }
 
     // @PutMapping("/{id}")
-    // public String putMethodName(@PathVariable String id, @RequestBody String entity) {
-    //     //TODO: process PUT request
+    // public ResponseEntity<?> putProduct(@PathVariable Long id, @RequestBody Product product) {
         
     //     return entity;
     // }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id){
+        Optional<Product> productOptional =productService.deleteProductById(id);
+        if (productOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found with: "+id);
+    }
 
 }
