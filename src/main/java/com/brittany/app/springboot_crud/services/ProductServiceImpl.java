@@ -48,15 +48,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Product updateProduct(Product product) {
-        return productRepository.findById(product.getId())
-        .map(productDB -> {
-            productDB.setName(product.getName());
-            productDB.setDescription(product.getDescription());
-            productDB.setPrice(product.getPrice());
-            return productRepository.save(productDB);
-        }).orElse(null);
-
+    public Optional<Product> updateProduct(Long id, Product product) {
+        Optional<Product> productOptional = productRepository.findById(id);
+       if (productOptional.isPresent()) {
+        Product productDb = productOptional.get();
+        productDb.setName(product.getName());
+        productDb.setPrice(product.getPrice());
+        productDb.setDescription(product.getDescription());
+        return Optional.of(productDb);
+       }
+       return productOptional;
     }
 
 }
