@@ -1,5 +1,6 @@
 package com.brittany.app.springboot_crud.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,8 +16,11 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private Float price;
+    @Column(nullable = false)
     private String description;
 
     @Embedded
