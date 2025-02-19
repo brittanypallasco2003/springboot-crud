@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -24,7 +24,7 @@ public class Product {
     private String name;
 
     @NotNull(message = "{NotNull.product.price}")
-    @Min(0)
+    @DecimalMin(value = "0.01", message = "{DecimalMin.product.price}")
     private Float price;
 
     @NotBlank(message = "{NotBlank.product.description}")
