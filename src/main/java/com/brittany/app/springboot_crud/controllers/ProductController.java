@@ -10,7 +10,9 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +47,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product, BindingResult result) {
+    public ResponseEntity<?> addProduct(@Valid @RequestBody Product product, BindingResult result) {
+        if (result.hasFieldErrors()) {
+            return validation(result);
+        }
         Product newproduct = productService.createProduct(product);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -56,7 +61,11 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> putProduct(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id) {
+    public ResponseEntity<?> putProduct(@Valid @RequestBody Product product, BindingResult result,
+            @PathVariable Long id) {
+        if (result.hasFieldErrors()) {
+            return validation(result);
+        }
         return productService.updateProduct(id, product)
                 .map(productDb -> ResponseEntity.ok().body(productDb))
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -72,4 +81,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found with: " + id);
     }
 
+    private ResponseEntity<?> validation(BindingResult result) {
+        Map<String, String> errors = new HashMap<>();
+        result.getFieldErrors().forEach(error -> {
+            errors.put(error.getField(), "El campo " + error.getField() + " " + error.getDefaultMessage());
+        });
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
 }
