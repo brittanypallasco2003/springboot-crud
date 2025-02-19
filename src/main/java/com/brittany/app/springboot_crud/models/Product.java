@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -25,10 +24,10 @@ public class Product {
     private String name;
 
     @NotNull
-    @Min(1)
+    @Min(0)
     private Float price;
 
-    @NotEmpty
+    @NotBlank
     private String description;
 
     @Embedded
