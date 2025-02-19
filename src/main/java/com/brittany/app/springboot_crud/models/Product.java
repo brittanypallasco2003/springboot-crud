@@ -19,15 +19,15 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.product.name}")
     @Size(min = 3, max = 20)
     private String name;
 
-    @NotNull
+    @NotNull(message = "{NotNull.product.price}")
     @Min(0)
     private Float price;
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.product.description}")
     private String description;
 
     @Embedded
