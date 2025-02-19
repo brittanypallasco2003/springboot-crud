@@ -5,12 +5,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.brittany.app.springboot_crud.models.Product;
 import com.brittany.app.springboot_crud.services.ProductService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product, BindingResult result) {
         Product newproduct = productService.createProduct(product);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -52,8 +56,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> putProduct(@PathVariable Long id, @RequestBody
-    Product product) {
+    public ResponseEntity<?> putProduct(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id) {
         return productService.updateProduct(id, product)
                 .map(productDb -> ResponseEntity.ok().body(productDb))
                 .orElseGet(() -> ResponseEntity.notFound().build());
