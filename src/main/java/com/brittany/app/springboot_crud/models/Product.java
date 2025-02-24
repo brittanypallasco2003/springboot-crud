@@ -1,5 +1,8 @@
 package com.brittany.app.springboot_crud.models;
 
+import com.brittany.app.springboot_crud.validation.IsExistsDb;
+import com.brittany.app.springboot_crud.validation.IsRequired;
+
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,15 +22,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @IsExistsDb
+    @IsRequired
+    private String sku;
+    
     @NotBlank(message = "{NotBlank.product.name}")
     @Size(min = 3, max = 20)
     private String name;
-
+    
     @NotNull(message = "{NotNull.product.price}")
     @DecimalMin(value = "0.01", message = "{DecimalMin.product.price}")
     private Float price;
-
-    @NotBlank(message = "{NotBlank.product.description}")
+    
+    @IsRequired(message = "{IsRequired.product.description}")
     private String description;
 
     @Embedded
@@ -36,15 +43,15 @@ public class Product {
     public Long getId() {
         return id;
     }
-
+    
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -52,15 +59,31 @@ public class Product {
     public Float getPrice() {
         return price;
     }
-
+    
     public void setPrice(Float price) {
         this.price = price;
     }
-
+    
     public String getDescription() {
         return description;
     }
 
+    public Audit getAudit() {
+        return audit;
+    }
+
+    public void setAudit(Audit audit) {
+        this.audit = audit;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+    
     public void setDescription(String description) {
         this.description = description;
     }
