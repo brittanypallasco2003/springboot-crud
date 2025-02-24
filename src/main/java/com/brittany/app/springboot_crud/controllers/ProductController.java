@@ -5,6 +5,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.brittany.app.springboot_crud.models.Product;
 import com.brittany.app.springboot_crud.services.ProductService;
+import com.brittany.app.springboot_crud.validation.ProductValidation;
 
 import jakarta.validation.Valid;
 
@@ -29,9 +30,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductValidation productValidation;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductValidation productValidation) {
         this.productService = productService;
+        this.productValidation = productValidation;
     }
 
     @GetMapping
@@ -48,6 +51,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> addProduct(@Valid @RequestBody Product product, BindingResult result) {
+        // productValidation.validate(product, result);
         if (result.hasFieldErrors()) {
             return validation(result);
         }
@@ -63,6 +67,7 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<?> putProduct(@Valid @RequestBody Product product, BindingResult result,
             @PathVariable Long id) {
+        // productValidation.validate(product, result);
         if (result.hasFieldErrors()) {
             return validation(result);
         }
