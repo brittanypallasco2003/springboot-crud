@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User createUser(User user) {
+    public User registerUser(User user) {
         return userRepository.save(user);
     }
 
