@@ -11,7 +11,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -20,9 +23,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min = 4, max = 12)
     @Column(unique = true)
     private String username;
-
+    
+    @NotBlank
+    @Size(min = 8)
     private String password;
 
     @ManyToMany
@@ -33,6 +40,11 @@ public class User {
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id","curso_id"})
     )
     private List<Role> roles;
+
+    private boolean enabled;
+
+    @Transient
+    private boolean isAdmin;
 
     public Long getId() {
         return id;
@@ -66,7 +78,20 @@ public class User {
         this.roles = roles;
     }
 
-    
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 
-    
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
 }
