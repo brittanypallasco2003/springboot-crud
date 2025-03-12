@@ -1,5 +1,7 @@
 package com.brittany.app.springboot_crud.models;
 
+import com.brittany.app.springboot_crud.validation.IsExistsDb;
+
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,7 +31,9 @@ public class Product {
 
     @NotBlank(message = "{NotBlank.product.description}")
     private String description;
-
+     
+    @NotBlank
+    @IsExistsDb
     private String sku;
 
     @Embedded
@@ -74,4 +78,13 @@ public class Product {
     public void setSku(String sku) {
         this.sku = sku;
     }
+
+    public Audit getAudit() {
+        return audit;
+    }
+
+    public void setAudit(Audit audit) {
+        this.audit = audit;
+    }
+    
 }
