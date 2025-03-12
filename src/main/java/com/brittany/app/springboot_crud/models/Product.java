@@ -30,9 +30,11 @@ public class Product {
     @NotBlank(message = "{NotBlank.product.description}")
     private String description;
 
+    private String sku;
+
     @Embedded
     private Audit audit = new Audit();
-
+    
     public Long getId() {
         return id;
     }
@@ -40,29 +42,36 @@ public class Product {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public Float getPrice() {
         return price;
     }
-
+    
     public void setPrice(Float price) {
         this.price = price;
     }
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
+    public String getSku() {
+        return sku;
+    }
+    
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
 }
