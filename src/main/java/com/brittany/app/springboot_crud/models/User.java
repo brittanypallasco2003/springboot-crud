@@ -3,7 +3,7 @@ package com.brittany.app.springboot_crud.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.brittany.app.springboot_crud.validation.IsExistByUsername;
+import com.brittany.app.springboot_crud.validation.annotation.IsExistByUsername;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,6 +21,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -42,6 +43,7 @@ public class User {
     private String password;
 
     @JsonIgnoreProperties({"users", "handler", "hibernateLazyInitializer"})
+    @NotEmpty
     @ManyToMany
     @JoinTable(
         name = "users_roles",

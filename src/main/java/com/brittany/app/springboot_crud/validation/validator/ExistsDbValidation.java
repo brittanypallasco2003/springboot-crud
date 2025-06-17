@@ -1,9 +1,10 @@
-package com.brittany.app.springboot_crud.validation;
+package com.brittany.app.springboot_crud.validation.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.brittany.app.springboot_crud.services.ProductService;
+import com.brittany.app.springboot_crud.validation.annotation.IsExistsDb;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

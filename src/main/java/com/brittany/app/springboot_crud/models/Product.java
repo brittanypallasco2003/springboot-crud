@@ -1,6 +1,6 @@
 package com.brittany.app.springboot_crud.models;
 
-import com.brittany.app.springboot_crud.validation.IsExistsDb;
+import com.brittany.app.springboot_crud.validation.annotation.IsExistsDb;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
