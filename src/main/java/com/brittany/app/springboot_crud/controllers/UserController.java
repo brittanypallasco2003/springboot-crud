@@ -8,21 +8,16 @@ import com.brittany.app.springboot_crud.services.UserService;
 
 import jakarta.validation.Valid;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-@CrossOrigin(originPatterns = "*", origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -33,6 +28,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<User> listAllUsers() {
         return userService.getAllUsers();
@@ -40,26 +36,14 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
-        if (result.hasFieldErrors()) {
-            return validation(result);
-        }
+    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUsers(user));
     }
     
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User user) {
         user.setAdmin(false);
-        return createUser(user, result);
-    }
-
-     private ResponseEntity<?> validation(BindingResult result) {
-        Map<String, String> errors = new HashMap<>();
-        result.getFieldErrors().forEach(error -> {
-            errors.put(error.getField(), "El campo " + error.getField() + " " + error.getDefaultMessage());
-        });
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
-    }
-    
+        return createUser(user);
+    }    
 
 }
