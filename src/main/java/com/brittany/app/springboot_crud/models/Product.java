@@ -22,7 +22,7 @@ public class Product {
     private Long id;
 
     @NotBlank(message = "{NotBlank.product.name}")
-    @Size(min = 3, max = 20)
+    @Size(min = 3, max = 20, message = "Debe tener mínimo 3 carácteres")
     private String name;
 
     @NotNull(message = "{NotNull.product.price}")

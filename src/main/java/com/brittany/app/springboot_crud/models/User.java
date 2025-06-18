@@ -38,7 +38,7 @@ public class User {
     private String username;
     
     @NotBlank
-    @Size(min = 8)
+    @Size(min = 8, message = "Debe tener mínimo 8 carácteres")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
